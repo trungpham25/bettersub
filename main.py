@@ -34,7 +34,6 @@ pipe = pipeline(
     feature_extractor=processor.feature_extractor,
     generate_kwargs={
         "max_new_tokens": 25,
-        "language": "en",
         "task": "transcribe"
     },
     torch_dtype=torch_dtype,
@@ -43,10 +42,9 @@ pipe = pipeline(
 
 def transcribe(inputs, previous_transcription):
     """Process audio input and return transcription"""
-    start_time = time.time()
     try:
         if inputs is None:
-            return previous_transcription, "0.0"
+            return previous_transcription
 
         # Save audio to temporary file
         filename = f"{uuid.uuid4().hex}.wav"
@@ -64,15 +62,8 @@ def transcribe(inputs, previous_transcription):
                 lines.append(transcription)
                 if len(lines) > 2:  # Keep only last 2 lines
                     lines = lines[-2:]
-                updated_transcription = '\n'.join(lines)
-            else:
-                updated_transcription = previous_transcription
-            
-            # Calculate latency
-            end_time = time.time()
-            latency = end_time - start_time
-            
-            return updated_transcription, f"{latency:.2f}"
+                return '\n'.join(lines)
+            return previous_transcription
             
         finally:
             # Cleanup temporary file
@@ -81,11 +72,11 @@ def transcribe(inputs, previous_transcription):
         
     except Exception as e:
         print(f"Error during transcription: {e}")
-        return previous_transcription, "Error"
+        return previous_transcription
 
 def clear():
     """Clear the transcription"""
-    return "", "0.0"
+    return ""
 
 print("Creating UI...")
 with gr.Blocks(
@@ -99,10 +90,17 @@ with gr.Blocks(
     .video-container {
         position: relative;
         width: 100%;
+        max-width: 960px;
+        margin: 0 auto;
         background: #000;
         border-radius: 12px;
         overflow: hidden;
-        margin-bottom: 20px;
+        aspect-ratio: 16/9;
+    }
+    .webcam-feed {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
     .caption-container {
         position: absolute;
@@ -111,7 +109,7 @@ with gr.Blocks(
         right: 0;
         background: rgba(0, 0, 0, 0.7);
         padding: 20px;
-        min-height: 80px;
+        z-index: 10;
     }
     .caption-text {
         color: white !important;
@@ -120,18 +118,21 @@ with gr.Blocks(
         line-height: 1.4 !important;
         text-align: center !important;
         text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5) !important;
+        min-height: 80px !important;
     }
     .caption-text textarea {
         color: white !important;
         background: transparent !important;
         border: none !important;
         text-align: center !important;
+        font-size: 24px !important;
     }
     .controls {
         display: flex;
         justify-content: center;
         gap: 10px;
         margin-top: 20px;
+        padding: 10px;
     }
     """
 ) as demo:
@@ -139,14 +140,16 @@ with gr.Blocks(
         with gr.Column(elem_classes="video-container"):
             # Webcam feed
             webcam = gr.Image(
+                label="",
                 sources="webcam",
                 streaming=True,
-                label="Camera Feed",
-                height=480
+                elem_classes="webcam-feed",
+                width=960,
+                height=540  # 16:9 aspect ratio
             )
             
             with gr.Column(elem_classes="caption-container"):
-                # Transcription output
+                # Captions
                 output = gr.Textbox(
                     label="",
                     value="",
@@ -157,36 +160,36 @@ with gr.Blocks(
                     elem_classes=["caption-text"]
                 )
         
-        with gr.Row(visible=False):
-            # Hidden audio input
+        with gr.Row(elem_classes="controls"):
+            # Audio input
             audio_input = gr.Audio(
                 sources=["microphone"],
                 type="numpy",
-                streaming=True
+                streaming=True,
+                label="Microphone Input",
+                scale=2
             )
             
-            # Hidden latency display
-            latency = gr.Textbox(
-                label="Latency",
-                value="0.0"
+            # Clear button
+            clear_button = gr.Button(
+                "Clear Captions",
+                variant="secondary",
+                scale=1
             )
         
-        with gr.Row(elem_classes="controls"):
-            clear_button = gr.Button("Clear Captions")
-    
-    # Event handlers
-    audio_input.stream(
-        fn=transcribe,
-        inputs=[audio_input, output],
-        outputs=[output, latency],
-        show_progress=False,
-        batch=False
-    )
-    
-    clear_button.click(
-        fn=clear,
-        outputs=[output, latency]
-    )
+        # Event handlers
+        audio_input.stream(
+            transcribe,
+            inputs=[audio_input, output],
+            outputs=[output],
+            show_progress=False,
+            batch=False
+        )
+        
+        clear_button.click(
+            clear,
+            outputs=[output]
+        )
 
 if __name__ == "__main__":
     print("Starting server...")
@@ -195,3 +198,4 @@ if __name__ == "__main__":
         server_name="127.0.0.1",
         server_port=7860,
         show_error=True
+    )
