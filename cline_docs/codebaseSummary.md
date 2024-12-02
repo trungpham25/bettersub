@@ -1,88 +1,117 @@
 # Codebase Summary
 
-## Project Structure Overview
+## System Architecture Overview
+
+### 1. Frontend Layer (`main.py`, `main_av.py`)
+- Entry points for application modes
+- Gradio interface implementation
+- Mode switching logic
+- File upload handling
+- Results display and export
+
+### 2. Backend Processing Pipeline
+
+#### Audio Processing (`modules/transcription/`)
+- `realtime_transcription.py`: Real-time Whisper integration
+- Confidence scoring implementation
+- Timestamp generation
+- Audio preprocessing utilities
+
+#### Visual Processing (`auto_avsr/`)
+- `realtime_vsr_v12.py`: Current VSR model implementation
+- Face detection and tracking
+- Lip movement analysis
+- Visual confidence metrics
+
+#### Utility Layer (`utils/`)
+- `audio_utils.py`: Audio processing functions
+- `video_utils.py`: Video frame extraction and processing
+- `av_utils.py`: Audio-visual synchronization
+- `sync_utils.py`: Timestamp management
+
+#### Testing Framework (`tests/`)
+- `test_transcription.py`: Transcription validation
+- Integration test suites
+- Performance benchmarks
+
+## Component Interactions
+
+### 1. Data Flow
 ```
-/project_root
-├── main.py                     # Entry point for the application
-├── requirements.txt            # List of dependencies
-├── models/
-│   ├── speaker_recognition_model.pth
-│   ├── face_recognition_model.pth
-│   └── emotion_recognition_model.pth
-├── modules/
-│   ├── transcription/
-│   │   └── realtime_transcription.py
-│   ├── audio_diarization/
-│   │   ├── acoustic_analysis.py
-│   │   └── beamforming.py
-│   ├── visual_recognition/
-│   │   ├── face_detection.py
-│   │   ├── face_recognition.py
-│   │   ├── lip_movement_detection.py
-│   │   └── expression_analysis.py
-│   └── integration/
-│       ├── data_synchronization.py
-│       └── multimodal_fusion.py
-├── utils/
-│   ├── audio_utils.py
-│   ├── video_utils.py
-│   └── sync_utils.py
-└── tests/
-    ├── test_transcription.py
-    ├── test_audio_diarization.py
-    └── test_visual_recognition.py
+User Input (Video/Realtime)
+    ↓
+Preprocessing (utils/)
+    ↓
+Parallel Processing
+    ├→ Whisper (transcription/)
+    └→ VSR (auto_avsr/)
+    ↓
+Fusion Engine (av_utils.py)
+    ↓
+Output Generation
 ```
 
-## Key Components and Their Interactions
-1. Transcription Engine
-   - Handles real-time audio processing
-   - Interfaces with Whisper model
+### 2. Fusion Algorithm Implementation
+- Located in `av_utils.py`
+- Confidence threshold management
+- Source selection logic
+- Timestamp synchronization
+- Output composition
 
-2. Audio Diarization System
-   - Processes acoustic signatures
-   - Manages microphone array
-   - Implements beamforming for spatial audio
+### 3. Key Integration Points
+1. Input Processing
+   - Video file handling
+   - Real-time stream management
+   - Format validation
 
-3. Visual Recognition System
-   - Handles face detection and recognition
-   - Processes lip movements
-   - Analyzes expressions
-   - Manages multiple visual processing pipelines
-
-4. Integration Layer
-   - Synchronizes multimodal data
-   - Manages real-time pipeline
-   - Coordinates between audio and visual systems
-
-## Data Flow
-1. Input Sources
-   - Audio streams from microphone array
-   - Video feed from camera
-
-2. Processing Pipeline
-   - Parallel processing of audio and video
-   - Feature extraction and analysis
-   - Multimodal fusion
+2. Model Integration
+   - Whisper initialization and inference
+   - VSR model setup and processing
+   - Resource management
 
 3. Output Generation
-   - Real-time transcription
-   - Speaker identification
-   - Emotional context
-   - Synchronized captions
+   - SRT/VTT formatting
+   - Source marking
+   - Timestamp alignment
+
+## Current Development Status
+
+### Active Components
+- Basic Whisper integration
+- VSR model implementation
+- Utility functions
+- Testing framework
+
+### Under Development
+- Fusion algorithm implementation
+- UI enhancements
+- Export functionality
+- LLM integration (planned)
+
+## Development Guidelines
+
+### 1. Code Organization
+- Maintain modular architecture
+- Clear component boundaries
+- Consistent error handling
+- Comprehensive logging
+
+### 2. Testing Requirements
+- Unit tests for core functions
+- Integration tests for pipelines
+- Performance benchmarks
+- Error case validation
+
+### 3. Documentation Standards
+- Inline documentation
+- API specifications
+- Component interaction diagrams
+- Setup and deployment guides
 
 ## External Dependencies
-- Whisper Large V3 Turbo
-- MediaPipe Face Mesh
-- PyAudio
-- OpenCV
-- TensorFlow
-- PyTorch
-- Librosa
-
-## Recent Changes
-- Initial project setup
-- Documentation structure created
-- Project structure defined
-
-## User Feedback Integration
-(To be updated as feedback is received)
+See `requirements.txt` for complete list
+- Core Dependencies:
+  - PyTorch: Model operations
+  - FFmpeg: Media processing
+  - Gradio: UI framework
+  - Face alignment libraries

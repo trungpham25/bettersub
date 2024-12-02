@@ -1,59 +1,104 @@
 # Technical Stack and Architecture
 
-## Core Technologies
+## System Architecture
 
-### Speech Recognition
-- Whisper Large V3 Turbo
-- PyTorch (for model inference)
-- CUDA support for GPU acceleration
+### 1. Frontend/UI Layer
+- Framework: Gradio/React
+- Components:
+  - Mode selection (Realtime/Video)
+  - Video file upload interface
+  - Transcription preview
+  - Download options (SRT/VTT)
 
-### Audio Processing
-- PyAudio for real-time audio capture
-- Librosa for audio feature extraction
-- SciPy for signal processing
-- Beamformit for microphone array processing
+### 2. Backend Processing Pipeline
+#### Whisper Component
+- Primary audio transcription engine
+- Confidence scoring system
+- Timestamp generation
+- Audio preprocessing
 
-### Computer Vision
-- MediaPipe for face mesh and lip detection
-- OpenCV for video capture and processing
-- FaceNet for face recognition
-- TensorFlow for emotion recognition models
+#### VSR Model Component
+- Lipreading-based transcription
+- Visual feature extraction
+- Frame-level processing
+- Confidence metrics
 
-### Development Environment
-- Python 3.8+
-- CUDA Toolkit
-- FFmpeg for media processing
+#### Fusion Engine
+- Confidence-based switching logic
+- Timestamp synchronization
+- Output composition
+- Source marking system
 
-## Architecture Decisions
+#### Optional LLM Component
+- Contextual inference
+- Low-confidence segment enhancement
+- Logical consistency checking
 
-### Real-time Processing
-- Parallel processing for audio and video streams
-- Queue-based pipeline for continuous data flow
-- Buffer management for synchronization
+### 3. Data Management
+- Temporary storage system
+- File format conversion
+- Export functionality
+- Cache management
 
-### Model Optimization
-- Quantization for faster inference
-- Batch processing where applicable
-- GPU acceleration for neural networks
+## Fusion Algorithm Specification
 
-### Data Flow
-1. Audio/Video Capture → Parallel Processing
-2. Audio → Feature Extraction → Speaker Diarization
-3. Video → Face Detection → Lip Movement → Expression Analysis
-4. Multimodal Fusion → Final Output
+### 1. Confidence-Based Switching
+- Threshold: 0.7 (configurable)
+- Primary: Whisper confidence scoring
+- Secondary: VSR confidence metrics
+- Decision matrix:
+  - Whisper > threshold: Use audio transcription
+  - Whisper < threshold: Check VSR confidence
+  - Both low: Mark as "inaudible" or use LLM
 
-### System Requirements
-- NVIDIA GPU (8GB+ VRAM recommended)
-- Multiple microphone array support
-- HD camera for facial recognition
-- 16GB+ RAM
-- SSD for model storage and fast loading
+### 2. Synchronization Mechanism
+- Primary reference: Whisper timestamps
+- Frame rate alignment
+- VSR timestamp adjustment
+- Segment boundary handling
 
-## External Dependencies
-- github.com/KingNish24/Realtime-whisper-large-v3-turbo
-- MediaPipe Face Mesh
-- PyAudio
-- OpenCV
-- TensorFlow
-- PyTorch
-- Librosa
+### 3. Output Composition
+- Source marking:
+  - [Audio] for Whisper
+  - [Visual] for VSR
+  - [LLM] for enhanced segments
+- Uncertainty indication
+- Timestamp preservation
+
+## Development Stack
+- Python: Core implementation
+- PyTorch: Model operations
+- FFmpeg: Media processing
+- Git: Version control
+
+## Testing Strategy
+1. Unit Testing
+   - Component-level validation
+   - Confidence scoring
+   - Timestamp accuracy
+
+2. Integration Testing
+   - Pipeline validation
+   - Model interaction
+   - Format conversion
+
+3. Performance Testing
+   - Latency measurement
+   - Resource utilization
+   - Scalability assessment
+
+## Deployment Considerations
+1. Resource Management
+   - Model loading optimization
+   - Memory efficiency
+   - GPU utilization
+
+2. Error Handling
+   - Input validation
+   - Process monitoring
+   - Fallback mechanisms
+
+3. Maintenance
+   - Logging system
+   - Performance metrics
+   - Update mechanism

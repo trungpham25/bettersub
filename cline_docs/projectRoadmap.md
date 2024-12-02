@@ -1,55 +1,38 @@
-# Project Roadmap: Real-Time Closed Captioning System
+# Bettersub - A Hybrid Speech and Lipreading Transcription Tool
 
 ## Project Goals
-- [ ] Implement real-time transcription using Whisper Large V3 Turbo
-- [ ] Develop advanced speaker diarization using audio and visual cues
-- [ ] Create facial recognition and emotion analysis system
-- [ ] Integrate lip movement detection for speech verification
-- [ ] Build a synchronized multimodal system
+- [ ] Integrate Whisper and VSR models for hybrid transcription
+- [ ] Implement real-time transcription with camera and microphone input
+- [ ] Develop video file transcription with subtitle export
+- [ ] Add optional LLM-based transcription refinement
+- [ ] Create user-friendly interface for both modes
 
 ## Key Features
+### Real-time Mode
+- Live camera and microphone input processing
+- Real-time closed caption generation
+- Hybrid audio-visual transcription
 
-### Core Transcription
-- [ ] Real-time audio transcription
-- [ ] Low-latency processing
-- [ ] High accuracy text output
+### Video Processing Mode
+- Video file upload and processing
+- SRT/VTT subtitle export
+- Enhanced accuracy through model combination
 
-### Audio Diarization
-- [ ] Acoustic signature analysis
-- [ ] Voice feature extraction
-- [ ] Multiple microphone support
-- [ ] Beamforming implementation
-
-### Visual Recognition
-- [ ] Face detection and recognition
-- [ ] Speaker identification
-- [ ] Lip movement detection
-- [ ] Expression analysis
-- [ ] Emotion context in captions
-
-### System Integration
-- [ ] Multimodal data synchronization
-- [ ] Real-time processing pipeline
-- [ ] Error handling and recovery
-- [ ] Performance optimization
+### Core Components
+- Whisper model for audio transcription
+- Auto-AVSR model for visual speech recognition
+- Optional LLM integration for refinement
+- Synchronization between audio and visual processing
 
 ## Completion Criteria
-1. System achieves real-time transcription with < 2s latency
-2. Speaker diarization accuracy > 90%
-3. Face recognition accuracy > 95%
-4. Lip movement detection accuracy > 90%
-5. Successful integration of all modalities
-6. Documentation complete and system tested
+- Successful integration of Whisper and VSR models
+- Real-time transcription with minimal latency
+- Accurate subtitle generation for video files
+- Clean and intuitive user interface
+- Comprehensive testing coverage
 
-## Progress Tracker
-### Completed Tasks
-(To be updated as tasks are completed)
-
-### In Progress
-- Initial project setup
-- Documentation creation
-
-### Upcoming
-- Environment setup
-- Base model integration
-- Audio processing implementation
+## Completed Tasks
+- [x] Initial project setup with Whisper integration
+- [x] Auto-AVSR model implementation
+- [x] Basic project structure established
+- [x] Version control system implemented
