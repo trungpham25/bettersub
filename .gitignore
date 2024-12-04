@@ -37,6 +37,7 @@ ENV/
 *.log
 temp_whisper/
 models/*.pth
+auto_avsr/vsr_trlrwlrs2lrs3vox2avsp_base.pth
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -45,3 +46,9 @@ models/*.pth
 # OS
 .DS_Store
 Thumbs.db
+
+# Generated files
+flagged/
+exports/
+temp_audio/
+models_cache/

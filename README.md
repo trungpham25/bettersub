@@ -18,7 +18,10 @@ An advanced subtitle generation system that combines Audio-Visual Speech Recogni
 pip install -r requirements.txt
 ```
 
-2. Download the VSR model file `vsr_trlrwlrs2lrs3vox2avsp_base.pth` and place it in the `auto_avsr` directory.
+2. Download the VSR model:
+   - Download the VSR model file `vsr_trlrwlrs2lrs3vox2avsp_base.pth` (955 MB)
+   - Place it in the `auto_avsr` directory
+   
 
 ## Usage
 
@@ -70,6 +73,10 @@ See `requirements.txt` for full list of dependencies. Key requirements:
 - Transformers (Whisper model)
 - OpenCV
 - MediaPipe
+
+## Important Note
+
+The VSR model file (`vsr_trlrwlrs2lrs3vox2avsp_base.pth`) is required but not included in the repository due to its size (955 MB). Please contact the repository owner to obtain access to the model file. Once obtained, place it in the `auto_avsr` directory before running the application.
 
 ## License
 
