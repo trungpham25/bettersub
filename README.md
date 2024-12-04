@@ -61,7 +61,7 @@ The application will start at `http://127.0.0.1:7861` with two main modes:
 
 Run the test suite:
 ```bash
-pytest
+pytest 
 ```
 
 ## Requirements
