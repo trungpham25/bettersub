@@ -1,117 +1,101 @@
 # Codebase Summary
 
-## System Architecture Overview
+## Project Structure
 
-### 1. Frontend Layer (`main.py`, `main_av.py`)
-- Entry points for application modes
-- Gradio interface implementation
-- Mode switching logic
-- File upload handling
-- Results display and export
+### Core Components
+1. Main Applications
+   - `main.py`: Primary application entry point
+   - `main_av.py`: Audio-visual processing entry point
 
-### 2. Backend Processing Pipeline
+2. Modules
+   - `modules/transcription/`
+     - `realtime_transcription.py`: Real-time transcription functionality
+     - `video_transcription.py`: Video file transcription with timestamps
 
-#### Audio Processing (`modules/transcription/`)
-- `realtime_transcription.py`: Real-time Whisper integration
-- Confidence scoring implementation
-- Timestamp generation
-- Audio preprocessing utilities
+3. Auto-AVSR
+   - `auto_avsr/`: Visual Speech Recognition implementation
+     - `realtime_vsr_v12.py`: Current VSR model implementation
+     - Multiple supporting modules for face detection and processing
 
-#### Visual Processing (`auto_avsr/`)
-- `realtime_vsr_v12.py`: Current VSR model implementation
-- Face detection and tracking
-- Lip movement analysis
-- Visual confidence metrics
+4. Utilities
+   - `utils/`
+     - `audio_utils.py`: Audio processing functions
+     - `video_utils.py`: Video processing functions
+     - `av_utils.py`: Audio-visual synchronization utilities
+     - `sync_utils.py`: Timing and synchronization functions
 
-#### Utility Layer (`utils/`)
-- `audio_utils.py`: Audio processing functions
-- `video_utils.py`: Video frame extraction and processing
-- `av_utils.py`: Audio-visual synchronization
-- `sync_utils.py`: Timestamp management
+5. Testing
+   - `tests/`
+     - `test_transcription.py`: Transcription module tests
+     - `test_video_transcription.py`: Video transcription tests
 
-#### Testing Framework (`tests/`)
-- `test_transcription.py`: Transcription validation
-- Integration test suites
-- Performance benchmarks
+## Key Components and Their Interactions
 
-## Component Interactions
+### Transcription Pipeline
+1. Audio Processing
+   - Whisper model integration
+   - Real-time audio capture
+   - Video audio extraction and processing
+   - Timestamp preservation
 
-### 1. Data Flow
-```
-User Input (Video/Realtime)
-    ↓
-Preprocessing (utils/)
-    ↓
-Parallel Processing
-    ├→ Whisper (transcription/)
-    └→ VSR (auto_avsr/)
-    ↓
-Fusion Engine (av_utils.py)
-    ↓
-Output Generation
-```
+2. Visual Processing
+   - VSR model implementation
+   - Face and lip movement detection
+   - Frame extraction and processing
 
-### 2. Fusion Algorithm Implementation
-- Located in `av_utils.py`
-- Confidence threshold management
-- Source selection logic
-- Timestamp synchronization
-- Output composition
+3. Synchronization (Planned)
+   - Audio-visual alignment
+   - Timestamp management
+   - Output merging logic
 
-### 3. Key Integration Points
-1. Input Processing
-   - Video file handling
-   - Real-time stream management
-   - Format validation
+## Data Flow
+1. Input Handling
+   - Real-time mode: Camera and microphone input
+   - Video mode: File upload and processing
 
-2. Model Integration
-   - Whisper initialization and inference
-   - VSR model setup and processing
-   - Resource management
+2. Processing Pipeline
+   - Audio extraction and processing
+   - Visual feature extraction
+   - Model inference
+   - Result synchronization (planned)
 
 3. Output Generation
-   - SRT/VTT formatting
-   - Source marking
-   - Timestamp alignment
+   - Transcription formatting
+   - Subtitle file generation (planned)
+   - UI display
 
-## Current Development Status
+## Recent Changes
+1. Video Transcription Implementation
+   - Added FFmpeg integration for audio extraction
+   - Implemented timestamp preservation
+   - Added unit tests for video transcription
+   - Successfully completed Ticket 1
 
-### Active Components
-- Basic Whisper integration
-- VSR model implementation
-- Utility functions
-- Testing framework
-
-### Under Development
-- Fusion algorithm implementation
-- UI enhancements
-- Export functionality
-- LLM integration (planned)
+2. Development Status
+   - Ticket 1 (Video Input for Whisper) completed
+   - Ticket 2 (VSR Timestamp Sync) on hold
+   - Moving to Ticket 3 (Fusion Logic)
 
 ## Development Guidelines
+1. Code Organization
+   - Maintain modular structure
+   - Clear separation of concerns
+   - Consistent naming conventions
 
-### 1. Code Organization
-- Maintain modular architecture
-- Clear component boundaries
-- Consistent error handling
-- Comprehensive logging
+2. Testing
+   - Unit tests for core functionality
+   - Integration tests for pipelines
+   - Regular test updates with new features
 
-### 2. Testing Requirements
-- Unit tests for core functions
-- Integration tests for pipelines
-- Performance benchmarks
-- Error case validation
-
-### 3. Documentation Standards
-- Inline documentation
-- API specifications
-- Component interaction diagrams
-- Setup and deployment guides
+3. Documentation
+   - Keep documentation in sync with code
+   - Document all major components
+   - Maintain clear API documentation
 
 ## External Dependencies
-See `requirements.txt` for complete list
-- Core Dependencies:
-  - PyTorch: Model operations
-  - FFmpeg: Media processing
-  - Gradio: UI framework
+- See `requirements.txt` for detailed package requirements
+- Key dependencies:
+  - PyTorch for model operations
+  - FFmpeg for media processing
+  - Gradio for UI
   - Face alignment libraries

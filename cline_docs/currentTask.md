@@ -2,32 +2,34 @@
 
 ## Active Tickets
 
-### Ticket 1: Refactor Whisper for Video Input
-- [ ] Implement video file audio extraction using ffmpeg
-- [ ] Connect extracted audio to Whisper pipeline
-- [ ] Ensure timestamp preservation
-- [ ] Add unit tests for video file transcription
+### Ticket 1: Refactor Whisper for Video Input ✓
+- [x] Implement video file audio extraction using ffmpeg
+- [x] Connect extracted audio to Whisper pipeline
+- [x] Ensure timestamp preservation
+- [x] Add unit tests for video file transcription
+- [x] Test with sample videos
 
-### Ticket 2: Add Timestamp Synchronization in VSR
-- [ ] Implement frame extraction with timestamps
+### Ticket 2: Add Timestamp Synchronization in VSR (On Hold)
+- [ ] Extract video frames with timestamps
 - [ ] Update VSR pipeline for timestamped output
+- [ ] Validate output with sample videos
 - [ ] Add timestamp validation tests
-- [ ] Test with sample videos
+Note: This ticket is temporarily on hold pending further investigation of the existing VSR implementation.
 
 ### Ticket 3: Implement Whisper + VSR Fusion Logic
-- [ ] Define confidence threshold system
-- [ ] Implement Whisper prioritization logic
-- [ ] Create VSR fallback mechanism
+- [ ] Define confidence thresholds
+- [ ] Create Whisper prioritization logic
+- [ ] Implement VSR fallback mechanism
 - [ ] Add "inaudible" segment marking
 
-### Ticket 4: Integrate Whisper and VSR Pipeline
-- [ ] Create unified video processing pipeline
+### Ticket 4: Integrate Whisper and VSR for Video Transcription
+- [ ] Create unified pipeline
 - [ ] Implement source indication system
 - [ ] Add timestamp-based output merging
 - [ ] Test with various video scenarios
 
 ### Ticket 5: UI Enhancements
-- [ ] Add video upload functionality
+- [ ] Add video upload widget
 - [ ] Implement progress tracking
 - [ ] Create transcription preview/edit interface
 
@@ -49,24 +51,18 @@
 - [ ] Test with real-world scenarios
 
 ## Current Focus
-- Setting up version control
-- Organizing codebase for ticket implementation
-- Planning integration strategy
+- Moving to Ticket 3: Implementing Whisper + VSR Fusion Logic
+- Planning fusion algorithm design
 
 ## Next Steps
-1. Complete version control setup
-2. Begin work on Ticket 1 (Whisper refactoring)
-3. Set up testing infrastructure
-4. Plan incremental integration approach
-
-## Dependencies
-- Ticket 4 depends on completion of Tickets 1-3
-- UI enhancements (Ticket 5) can proceed in parallel
-- Export functionality (Ticket 6) requires working pipeline
-- LLM integration (Ticket 8) is optional and can be done last
+1. Design confidence scoring system for both models
+2. Implement prioritization logic
+3. Create fallback mechanism
+4. Add inaudible segment marking
 
 ## Technical Notes
-- Maintain separation between real-time and video processing modes
-- Ensure proper error handling throughout
-- Focus on maintainable, testable code
-- Document all major components and interfaces
+- Successfully implemented video transcription with FFmpeg integration
+- Whisper model properly handles video input through audio extraction
+- Timestamp preservation working in transcription output
+- Unit tests confirm functionality
+- Ticket 2 (VSR timestamp synchronization) put on hold to focus on fusion logic first
