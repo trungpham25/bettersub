@@ -76,7 +76,9 @@ See `requirements.txt` for full list of dependencies. Key requirements:
 
 ## Important Note
 
-The VSR model file (`vsr_trlrwlrs2lrs3vox2avsp_base.pth`) is required but not included in the repository due to its size (955 MB). Please contact the repository owner to obtain access to the model file. Once obtained, place it in the `auto_avsr` directory before running the application.
+The VSR model file (`vsr_trlrwlrs2lrs3vox2avsp_base.pth`) is required but not included in the repository due to its size (955 MB). 
+Download link: https://drive.google.com/file/d/19GA5SqDjAkI5S88Jt5neJRG-q5RUi5wi/view
+
 
 ## License
 
