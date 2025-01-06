@@ -1,4 +1,4 @@
-# BetterSub 3.0
+# BetterSub 
 
 An advanced subtitle generation system that combines Audio-Visual Speech Recognition (AVSR) with traditional audio-based transcription, featuring real-time capabilities and an intuitive Gradio interface.
 
