@@ -80,6 +80,5 @@ The VSR model file (`vsr_trlrwlrs2lrs3vox2avsp_base.pth`) is required but not in
 Download link: https://drive.google.com/file/d/19GA5SqDjAkI5S88Jt5neJRG-q5RUi5wi/view
 
 
-## License
 
-[Add your license information]
+
