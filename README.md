@@ -9,7 +9,7 @@ An advanced subtitle generation system that combines Audio-Visual Speech Recogni
 - Editable transcription output
 - Export to SRT and VTT subtitle formats
 - Advanced fusion of audio and visual recognition results
-- Modern, responsive UI with dark theme
+
 
 ## Installation
 
